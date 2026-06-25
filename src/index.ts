@@ -1,7 +1,23 @@
-import process from "node:process";
+import 'dotenv/config';
+import process from 'node:process';
+import { Client, GatewayIntentBits, Events } from 'discord.js';
+import guildMemberAddHandler from './handlers/guildMemberAdd.js';
 
-const startedAt = new Date().toISOString();
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+  ],
+});
 
-console.log(
-  `IPUT Esports Discord Bot development environment is ready on Node ${process.version}. Started at ${startedAt}`,
-);
+client.on(Events.GuildMemberAdd, guildMemberAddHandler);
+
+client.on('error', (error) => {
+  console.error('[Client Error]', error);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[Unhandled Rejection]', reason);
+});
+
+client.login(process.env.DISCORD_TOKEN);
