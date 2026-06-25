@@ -1,0 +1,38 @@
+{
+  "name": "iput-esports-discord-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for IPUT Esports.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IPUT-suzuki/IPUT-Esports-Discord-Bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IPUT-suzuki/IPUT-Esports-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/IPUT-suzuki/IPUT-Esports-Discord-Bot#readme",
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2"
+  }
+}
