@@ -4,6 +4,7 @@
     "review": {
       "description": "コードレビュー、仕様確認",
       "mode": "primary",
+      "prompt": "{file:./.opencode/agents/review.md}",
       "permission": {
         "edit": "deny",
         "bash": "ask"
@@ -12,6 +13,7 @@
     "docs": {
       "description": "ドキュメント設計・議論",
       "mode": "primary",
+      "prompt": "{file:./.opencode/agents/docs.md}",
       "permission": {
         "edit": "deny",
         "bash": "ask"
