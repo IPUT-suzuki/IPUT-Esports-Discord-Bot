@@ -12,7 +12,7 @@ import {
   EmbedBuilder,
   PermissionFlagsBits,
 } from 'discord.js';
-import { getVerifiedUser, saveVerifiedUser } from '../utils/profile.js';
+import { saveVerifiedUser } from '../utils/profile.js';
 import { notifyVerification } from '../utils/notification.js';
 import { VerifiedUser } from '../types/VerifiedUser.js';
 import process from 'node:process';
@@ -48,12 +48,6 @@ async function sendVerificationEmail(studentNumber: string, code: string): Promi
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   if (!interaction.guild) {
     await interaction.reply({ content: 'このコマンドはサーバー内でのみ使用できます。', ephemeral: true });
-    return;
-  }
-
-  const existing = await getVerifiedUser(interaction.user.id);
-  if (existing) {
-    await interaction.reply({ content: 'あなたは既に認証済みです。', ephemeral: true });
     return;
   }
 
