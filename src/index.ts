@@ -5,6 +5,7 @@ import guildMemberAddHandler from './handlers/guildMemberAdd.js';
 import interactionCreateHandler from './handlers/interactionCreate.js';
 import { data as verifyData } from './commands/verify.js';
 import { data as profileData } from './commands/profile.js';
+import { data as rankData } from './commands/rank.js';
 
 const client = new Client({
   intents: [
@@ -28,7 +29,7 @@ client.once(Events.ClientReady, async (readyClient) => {
   try {
     console.log('[Commands] Registering slash commands...');
     await rest.put(Routes.applicationCommands(clientId), {
-      body: [verifyData.toJSON(), profileData.toJSON()],
+      body: [verifyData.toJSON(), profileData.toJSON(), rankData.toJSON()],
     });
     console.log('[Commands] Slash commands registered successfully');
   } catch (error) {
