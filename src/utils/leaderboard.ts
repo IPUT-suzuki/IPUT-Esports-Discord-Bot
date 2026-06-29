@@ -15,6 +15,10 @@ const channels: ChannelConfig[] = [
 
 const messageIds: Record<string, string> = {};
 const lastPostDates: Record<string, string> = {};
+const currentTypes: Record<string, 'messages' | 'voice'> = {
+  LEADERBOARD_MONTHLY_CHANNEL_ID: 'messages',
+  LEADERBOARD_YEARLY_CHANNEL_ID: 'messages',
+};
 
 function shouldReset(period: 'monthly' | 'yearly', lastDate: string | undefined): boolean {
   if (!lastDate) return true;
@@ -128,7 +132,8 @@ async function updateChannel(
 async function updateLeaderboardChannels(client: Client): Promise<void> {
   for (const config of channels) {
     try {
-      await updateChannel(client, config, 'messages');
+      const type = currentTypes[config.envKey] ?? 'messages';
+      await updateChannel(client, config, type);
     } catch (error) {
       console.error(`[Leaderboard] Failed to update ${config.label}:`, error);
     }
@@ -164,6 +169,8 @@ export async function handleButton(interaction: ButtonInteraction): Promise<void
 
     const config = channels.find((c) => c.period === period);
     if (!config) return;
+
+    currentTypes[config.envKey] = type;
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()

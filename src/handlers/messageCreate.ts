@@ -1,4 +1,4 @@
-import { Events, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { trackMessage } from '../utils/activity.js';
 
 /**
