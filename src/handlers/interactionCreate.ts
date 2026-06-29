@@ -7,10 +7,9 @@ import {
 } from 'discord.js';
 import * as verifyCommand from '../commands/verify.js';
 import * as profileCommand from '../commands/profile.js';
+import * as unverifyCommand from '../commands/unverify.js';
+import { handleButton as handleLeaderboardButton } from '../utils/leaderboard.js';
 
-/**
- * インタラクションイベントのハンドラ。
- */
 export default async function interactionCreateHandler(interaction: Interaction): Promise<void> {
   if (interaction.isChatInputCommand()) {
     await handleCommand(interaction);
@@ -36,6 +35,8 @@ async function handleCommand(interaction: ChatInputCommandInteraction): Promise<
       await verifyCommand.execute(interaction);
     } else if (commandName === 'profile') {
       await profileCommand.execute(interaction);
+    } else if (commandName === 'unverify') {
+      await unverifyCommand.execute(interaction);
     }
   } catch (error) {
     console.error(`[interactionCreate] Command error (${commandName}):`, error);
@@ -49,6 +50,7 @@ async function handleCommand(interaction: ChatInputCommandInteraction): Promise<
 async function handleButton(interaction: ButtonInteraction): Promise<void> {
   try {
     await verifyCommand.handleButton(interaction);
+    await handleLeaderboardButton(interaction);
   } catch (error) {
     console.error('[interactionCreate] Button error:', error);
     await interaction.reply({ content: 'エラーが発生しました。管理者に連絡してください。', ephemeral: true }).catch(() => {});
