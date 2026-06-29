@@ -14,6 +14,7 @@ import {
 } from 'discord.js';
 import { saveVerifiedUser } from '../utils/profile.js';
 import { notifyVerification } from '../utils/notification.js';
+import { sendVerificationCodeEmail } from '../utils/email.js';
 import { VerifiedUser } from '../types/VerifiedUser.js';
 import process from 'node:process';
 
@@ -32,14 +33,6 @@ function generateCode(): string {
 
 function getStudentEmail(studentNumber: string): string {
   return `tk${studentNumber}@tks.iput.ac.jp`;
-}
-
-async function sendVerificationEmail(studentNumber: string, code: string): Promise<void> {
-  // TODO: SMTP設定が整うまでコンソール出力のみ
-  // nodemailer を使用してメール送信を行う
-  // const transporter = createTransport({...});
-  // await transporter.sendMail({...});
-  console.log(`[Verify] Sending code ${code} to ${getStudentEmail(studentNumber)}`);
 }
 
 /**
@@ -91,7 +84,21 @@ export async function handleModalSubmit(interaction: ModalSubmitInteraction): Pr
     const expiresAt = Date.now() + 5 * 60 * 1000; // 5分
 
     sessions.set(interaction.user.id, { studentNumber, enrollmentYear, code, expiresAt });
-    await sendVerificationEmail(input, code);
+
+    try {
+      await sendVerificationCodeEmail(getStudentEmail(input), code);
+    } catch (error) {
+      sessions.delete(interaction.user.id);
+      console.error('[Verify] Failed to send verification email:', error);
+      const reply = interaction.replied || interaction.deferred
+        ? interaction.editReply.bind(interaction)
+        : interaction.reply.bind(interaction);
+      await reply({
+        content: 'メールの送信に失敗しました。しばらく経ってから再度お試しください。',
+        ephemeral: true,
+      });
+      return;
+    }
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
