@@ -28,6 +28,7 @@
   "homepage": "https://github.com/IPUT-suzuki/IPUT-Esports-Discord-Bot#readme",
   "devDependencies": {
     "@types/node": "^24.13.2",
+    "@types/nodemailer": "^8.0.1",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
