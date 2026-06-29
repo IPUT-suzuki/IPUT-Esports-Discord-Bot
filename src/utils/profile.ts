@@ -40,6 +40,15 @@ export async function getVerifiedUser(userId: string): Promise<VerifiedUser | un
 }
 
 /**
+ * verified.json から指定ユーザーの認証情報を削除する。
+ */
+export async function removeVerifiedUser(userId: string): Promise<void> {
+  const users = await loadVerifiedUsers();
+  delete users[userId];
+  await writeFile(DATA_PATH, JSON.stringify(users, null, 2) + '\n', 'utf-8');
+}
+
+/**
  * 指定ユーザーのプロフィール情報を組み立てる。
  */
 export async function buildUserProfile(member: GuildMember): Promise<UserProfile | undefined> {
