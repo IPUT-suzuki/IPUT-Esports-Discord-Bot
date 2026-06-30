@@ -1,18 +1,99 @@
-# IPUT Esports Discord Bot - Documentation
+# IPUT Esports Discord Bot ドキュメント
 
-IPUT Esports サークル向け Discord Bot のドキュメントです。
+IPUT Esports サークル向け Discord Bot のドキュメント入口です。
 
-## Quick Links
+## プロジェクト概要
 
-| セクション | 内容 |
-|-----------|------|
-| [Setup Guide](./guides/setup.md) | 初回セットアップ手順 |
-| [Handover Guide](./guides/handover.md) | 次期管理者向け引き継ぎガイド |
-| [Student Verification](./features/student-verification.md) | 学籍番号認証機能の仕様 |
-| [Admin Notification](./features/admin-notification.md) | 認証完了時の運営通知機能の仕様 |
-| [Profile Command](./features/profile.md) | プロフィール表示機能の仕様 |
-| [Unverify Command](./features/unverify.md) | 認証解除機能の仕様 |
-| [Activity Tracking & Leaderboard](./features/activity-tracking.md) | アクティビティトラッキング・リーダーボード機能の仕様 |
-| [Directory Structure](./architecture/directory-structure.md) | プロジェクト構成と命名規則 |
-| [Data Flow](./architecture/data-flow.md) | 認証フローの全体図 |
-| [Environment & Operations](./operations/environment.md) | 環境変数とデータ管理方針 |
+本 Bot は、IPUT Esports サークルの Discord サーバー運営を支援するために開発されました。学籍番号によるメンバー認証を中心に、プロフィール管理、ボイスチャット活動時間の追跡、ランキング表示、運営通知などの機能を提供します。
+
+### 主要機能
+
+- **メンバー認証**: 学籍番号とメールによる本人確認。認証後にロールを自動付与
+- **プロフィール表示**: 認証済みメンバーのプロフィールをカード形式で表示
+- **VC 活動追跡**: ボイスチャットの参加時間を記録・集計
+- **ランキング表示**: 月間・年度の VC 活動時間ランキングを自動更新
+- **運営通知**: 認証・認証解除イベントを運営チャンネルに通知
+
+### 技術スタック
+
+| 項目 | 内容 |
+|------|------|
+| 言語 | TypeScript (ES2023) |
+| ランタイム | Node.js 20.x 以上 |
+| フレームワーク | discord.js v14 |
+| モジュール | ES Modules |
+| パッケージ管理 | npm |
+
+## ドキュメント構成
+
+| ドキュメント | 内容 | 対象読者 |
+|-------------|------|---------|
+| [セットアップガイド](./setup.md) | 環境構築から本番運用までの手順 | 新規導入者・運営者 |
+| [コードレビュー報告書](./code-review.md) | コード品質・セキュリティ・パフォーマンスのレビュー結果 | 開発者・保守担当者 |
+
+### セットアップガイド
+
+Bot を初めて導入する方は [セットアップガイド](./setup.md) を参照してください。以下の内容が含まれます。
+
+- 必要な環境とバージョン
+- Discord Bot の作成手順
+- Gmail アプリパスワードの取得方法
+- サーバー側のロール設定
+- 開発モードと本番モードの起動方法
+- よくあるトラブルと対処法
+- PM2 による永続化
+
+### コードレビュー報告書
+
+コードの品質や改善点を確認したい方は [コードレビュー報告書](./code-review.md) を参照してください。以下の内容が含まれます。
+
+- 型安全性・コード構造の評価
+- 優れている点と改善推奨事項
+- セキュリティチェック結果
+- パフォーマンスチェック結果
+- 推奨される優先順位
+
+## クイックスタート
+
+5 分で開発環境を起動する手順です。詳細は [セットアップガイド](./setup.md) を参照してください。
+
+### 1. リポジトリのクローン
+
+```bash
+git clone https://github.com/IPUT-suzuki/IPUT-Esports-Discord-Bot.git
+cd IPUT-Esports-Discord-Bot
+```
+
+### 2. 依存パッケージのインストール
+
+```bash
+npm install
+```
+
+### 3. 環境変数の設定
+
+```bash
+cp .env.example .env
+# .env を編集して必要な値を設定
+```
+
+### 4. 開発モードで起動
+
+```bash
+npm run dev
+```
+
+Bot が起動し、スラッシュコマンドが Discord サーバーに登録されます。
+
+## スクリプト一覧
+
+| コマンド | 用途 |
+|---------|------|
+| `npm run dev` | TypeScript を直接実行（開発用） |
+| `npm run build` | TypeScript を `dist/` にコンパイル |
+| `npm start` | コンパイル済みコードを実行（本番用） |
+| `npm run typecheck` | 型チェックのみ実行（ビルドなし） |
+
+## 補足
+
+本ドキュメントはプロジェクトの入口です。各ドキュメントは随時更新されるため、最新情報はこのページのリンク先を確認してください。
